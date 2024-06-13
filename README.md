@@ -177,3 +177,4 @@ The collection includes sample requests with the necessary parameters for each A
 
 ![alt text](screenshots/aws-1.png)
 ![alt text](screenshots/aws-2.png)
+![alt text](screenshots/aws-3.png)
