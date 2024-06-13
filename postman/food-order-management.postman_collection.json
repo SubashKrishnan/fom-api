@@ -1,0 +1,152 @@
+{
+	"info": {
+		"_postman_id": "a2c07e6b-53a1-43fa-952e-81ffa87a000d",
+		"name": "food-order-management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3555617",
+		"_collection_link": "https://bold-satellite-949250.postman.co/workspace/self-car~24e093f4-d6db-4dfe-a4c8-a7f7f32aa2d1/collection/3555617-a2c07e6b-53a1-43fa-952e-81ffa87a000d?action=share&source=collection_link&creator=3555617"
+	},
+	"item": [
+		{
+			"name": "createOrder",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"userId\": \"user0\",\n  \"locationName\": \"Chennai\",\n  \"status\": \"NEW\",\n  \"items\": [\n    {\n      \"itemId\": \"item005\",\n      \"quantity\": 1\n    },\n    {\n      \"itemId\": \"item006\",\n      \"quantity\": 2\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api-domain}}/dev/orders",
+					"host": [
+						"{{api-domain}}"
+					],
+					"path": [
+						"dev",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOrder",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api-domain}}/dev/orders/147f435c-0ff5-4386-951e-b9accaf43170",
+					"host": [
+						"{{api-domain}}"
+					],
+					"path": [
+						"dev",
+						"orders",
+						"147f435c-0ff5-4386-951e-b9accaf43170"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOrdersByUserId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api-domain}}/dev/orders/user/user0?limit=1&orderId=147f435c-0ff5-4386-951e-b9accaf43170&createdDate=2024-06-13T21:46:43.093Z",
+					"host": [
+						"{{api-domain}}"
+					],
+					"path": [
+						"dev",
+						"orders",
+						"user",
+						"user0"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "1"
+						},
+						{
+							"key": "orderId",
+							"value": "147f435c-0ff5-4386-951e-b9accaf43170"
+						},
+						{
+							"key": "createdDate",
+							"value": "2024-06-13T21:46:43.093Z"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOrdersByUserIdAndLocation",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api-domain}}/dev/orders/user/user0/location/Chennai?limit=1&orderId=82716751-760e-4f35-962c-1e5d4a863d1a",
+					"host": [
+						"{{api-domain}}"
+					],
+					"path": [
+						"dev",
+						"orders",
+						"user",
+						"user0",
+						"location",
+						"Chennai"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "1"
+						},
+						{
+							"key": "orderId",
+							"value": "82716751-760e-4f35-962c-1e5d4a863d1a"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "api-domain",
+			"value": "https://de3xlq0h9l.execute-api.ap-south-1.amazonaws.com",
+			"type": "string"
+		}
+	]
+}
