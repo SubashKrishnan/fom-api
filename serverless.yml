@@ -41,6 +41,14 @@ functions:
           method: post
     role: GlobalFunctionRole
 
+  getOrder:
+    handler: src/handlers/orders/GetOrderHandler.handler
+    events:
+      - http:
+          path: orders/{orderId}
+          method: get
+    role: GlobalFunctionRole
+
 resources:
   - ${file(./serverless-ext/iam.yml)}
   - ${file(./serverless-ext/dynamodb.yml)}

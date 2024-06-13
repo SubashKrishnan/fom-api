@@ -31,4 +31,39 @@ export class OrderRepository {
       );
     }
   }
+
+  async getOrderById(orderId: string): Promise<Order | null> {
+    logger.info(`OrderRepository - getOrderById - Start: orderId=${orderId}`);
+
+    const params = {
+      TableName,
+      Key: {orderId},
+    };
+
+    try {
+      const result = await dynamoDbClient.get(params).promise();
+      const order = result.Item as Order;
+
+      if (order) {
+        logger.info(
+          `OrderRepository - getOrderById - Order retrieved: ${JSON.stringify(
+            order
+          )}`
+        );
+      } else {
+        logger.info(
+          `OrderRepository - getOrderById - Order not found: orderId=${orderId}`
+        );
+      }
+
+      return order;
+    } catch (error) {
+      logger.error(
+        `OrderRepository - getOrderById - Error: orderId=${orderId} - ${error}`
+      );
+      throw new Error(`Failed to retrieve order: ${error}`);
+    } finally {
+      logger.info(`OrderRepository - getOrderById - End: orderId=${orderId}`);
+    }
+  }
 }

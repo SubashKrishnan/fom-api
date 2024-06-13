@@ -45,4 +45,29 @@ export class OrderService {
       logger.info(`OrderService - createOrder - End`);
     }
   }
+
+  async getOrderById(orderId: string): Promise<Order | null> {
+    logger.info(`OrderService - getOrderById - Start: orderId=${orderId}`);
+
+    try {
+      const order = await this.orderRepository.getOrderById(orderId);
+
+      if (!order) {
+        logger.info(
+          `OrderService - getOrderById - Order not found: ${orderId}`
+        );
+      } else {
+        logger.info(
+          `OrderService - getOrderById - Order retrieved successfully: ${orderId}`
+        );
+      }
+
+      return order;
+    } catch (error) {
+      logger.error(`OrderService - getOrderById - Error: ${error}`);
+      throw new Error(`Failed to retrieve order: ${error}`);
+    } finally {
+      logger.info(`OrderService - getOrderById - End: orderId=${orderId}`);
+    }
+  }
 }
