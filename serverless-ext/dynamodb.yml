@@ -8,7 +8,7 @@ Resources:
           AttributeType: S
         - AttributeName: userId
           AttributeType: S
-        - AttributeName: location
+        - AttributeName: locationName
           AttributeType: S
         - AttributeName: createdDate
           AttributeType: S
@@ -24,11 +24,19 @@ Resources:
               KeyType: RANGE
           Projection:
             ProjectionType: ALL
-        - IndexName: location-index
+        - IndexName: locationName-index
           KeySchema:
-            - AttributeName: location
+            - AttributeName: locationName
               KeyType: HASH
             - AttributeName: createdDate
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+        - IndexName: userId-locationName-index
+          KeySchema:
+            - AttributeName: userId
+              KeyType: HASH
+            - AttributeName: locationName
               KeyType: RANGE
           Projection:
             ProjectionType: ALL

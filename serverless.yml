@@ -35,22 +35,23 @@ package:
 functions:
   createOrder:
     handler: src/handlers/orders/CreateOrderHandler.handler
+    role: GlobalFunctionRole
     events:
       - http:
           path: orders
           method: post
-    role: GlobalFunctionRole
 
   getOrder:
     handler: src/handlers/orders/GetOrderHandler.handler
+    role: GlobalFunctionRole
     events:
       - http:
           path: orders/{orderId}
           method: get
-    role: GlobalFunctionRole
 
   getOrdersByUserId:
     handler: src/handlers/orders/GetOrdersByUserIdHandler.handler
+    role: GlobalFunctionRole
     events:
       - http:
           path: orders/user/{userId}
@@ -61,7 +62,20 @@ functions:
                 limit: false
                 orderId: false
                 createdDate: false
+
+  getOrdersByUserIdAndLocation:
+    handler: src/handlers/orders/GetOrdersByUserIdAndLocationHandler.handler
     role: GlobalFunctionRole
+    events:
+      - http:
+          path: orders/user/{userId}/location/{locationName}
+          method: get
+          request:
+            parameters:
+              querystrings:
+                limit: false
+                orderId: false
+                createdDate: false
 
 resources:
   - ${file(./serverless-ext/iam.yml)}

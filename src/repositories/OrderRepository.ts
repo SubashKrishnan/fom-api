@@ -114,4 +114,55 @@ export class OrderRepository {
       );
     }
   }
+
+  async getOrdersByUserIdAndLocation(
+    userId: string,
+    locationName: string,
+    limit?: number,
+    lastKey?: any
+  ): Promise<any> {
+    logger.info(
+      `OrderRepository - getOrdersByUserIdAndLocation - Start: userId=${userId}, locationName=${locationName}, limit=${limit}, lastKey=${JSON.stringify(
+        lastKey
+      )}`
+    );
+
+    const params: any = {
+      TableName,
+      IndexName: 'userId-locationName-index',
+      KeyConditionExpression:
+        'userId = :userId AND locationName = :locationName',
+      ExpressionAttributeValues: {
+        ':userId': userId,
+        ':locationName': locationName,
+      },
+      Limit: limit,
+    };
+
+    if (lastKey) {
+      params.ExclusiveStartKey = lastKey;
+    }
+
+    try {
+      const result = await dynamoDbClient.query(params).promise();
+      logger.info(
+        `OrderRepository - getOrdersByUserIdAndLocation - Orders retrieved: ${JSON.stringify(
+          result.Items
+        )}`
+      );
+      return {
+        items: result.Items,
+        lastKey: result.LastEvaluatedKey,
+      };
+    } catch (error) {
+      logger.error(
+        `OrderRepository - getOrdersByUserIdAndLocation - Error: userId=${userId}, locationName=${locationName} - ${error}`
+      );
+      throw new Error(`Failed to retrieve orders: ${error}`);
+    } finally {
+      logger.info(
+        `OrderRepository - getOrdersByUserIdAndLocation - End: userId=${userId}, locationName=${locationName}`
+      );
+    }
+  }
 }

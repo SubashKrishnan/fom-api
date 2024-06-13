@@ -99,4 +99,39 @@ export class OrderService {
       logger.info(`OrderService - getOrdersByUserId - End: userId=${userId}`);
     }
   }
+
+  async getOrdersByUserIdAndLocation(
+    userId: string,
+    locationName: string,
+    limit?: number,
+    lastKey?: any
+  ): Promise<any> {
+    logger.info(
+      `OrderService - getOrdersByUserIdAndLocation - Start: userId=${userId}, locationName=${locationName}, limit=${limit}, lastKey=${JSON.stringify(
+        lastKey
+      )}`
+    );
+
+    try {
+      const result = await this.orderRepository.getOrdersByUserIdAndLocation(
+        userId,
+        locationName,
+        limit,
+        lastKey
+      );
+      logger.info(
+        `OrderService - getOrdersByUserIdAndLocation - Orders retrieved successfully for userId=${userId} and locationName=${locationName}`
+      );
+      return result;
+    } catch (error) {
+      logger.error(
+        `OrderService - getOrdersByUserIdAndLocation - Error: ${error}`
+      );
+      throw new Error(`Failed to retrieve orders: ${error}`);
+    } finally {
+      logger.info(
+        `OrderService - getOrdersByUserIdAndLocation - End: userId=${userId}, locationName=${locationName}`
+      );
+    }
+  }
 }

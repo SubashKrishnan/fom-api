@@ -1,7 +1,7 @@
 export interface Order {
   orderId: string;
   userId: string;
-  location: string;
+  locationName: string;
   createdDate: string;
   status: string;
   items: Array<{
