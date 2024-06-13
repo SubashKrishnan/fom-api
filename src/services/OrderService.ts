@@ -70,4 +70,33 @@ export class OrderService {
       logger.info(`OrderService - getOrderById - End: orderId=${orderId}`);
     }
   }
+
+  async getOrdersByUserId(
+    userId: string,
+    limit?: number,
+    lastKey?: any
+  ): Promise<any> {
+    logger.info(
+      `OrderService - getOrdersByUserId - Start: userId=${userId}, limit=${limit}, lastKey=${JSON.stringify(
+        lastKey
+      )}`
+    );
+
+    try {
+      const result = await this.orderRepository.getOrdersByUserId(
+        userId,
+        limit,
+        lastKey
+      );
+      logger.info(
+        `OrderService - getOrdersByUserId - Orders retrieved successfully for userId=${userId}`
+      );
+      return result;
+    } catch (error) {
+      logger.error(`OrderService - getOrdersByUserId - Error: ${error}`);
+      throw new Error(`Failed to retrieve orders: ${error}`);
+    } finally {
+      logger.info(`OrderService - getOrdersByUserId - End: userId=${userId}`);
+    }
+  }
 }

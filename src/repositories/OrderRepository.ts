@@ -66,4 +66,52 @@ export class OrderRepository {
       logger.info(`OrderRepository - getOrderById - End: orderId=${orderId}`);
     }
   }
+
+  async getOrdersByUserId(
+    userId: string,
+    limit?: number,
+    lastKey?: any
+  ): Promise<any> {
+    logger.info(
+      `OrderRepository - getOrdersByUserId - Start: userId=${userId}, limit=${limit}, lastKey=${JSON.stringify(
+        lastKey
+      )}`
+    );
+
+    const params: any = {
+      TableName,
+      IndexName: 'userId-index',
+      KeyConditionExpression: 'userId = :userId',
+      ExpressionAttributeValues: {
+        ':userId': userId,
+      },
+      Limit: limit,
+    };
+
+    if (lastKey) {
+      params.ExclusiveStartKey = lastKey;
+    }
+
+    try {
+      const result = await dynamoDbClient.query(params).promise();
+      logger.info(
+        `OrderRepository - getOrdersByUserId - Orders retrieved: ${JSON.stringify(
+          result.Items
+        )}`
+      );
+      return {
+        items: result.Items,
+        lastKey: result.LastEvaluatedKey,
+      };
+    } catch (error) {
+      logger.error(
+        `OrderRepository - getOrdersByUserId - Error: userId=${userId} - ${error}`
+      );
+      throw new Error(`Failed to retrieve orders: ${error}`);
+    } finally {
+      logger.info(
+        `OrderRepository - getOrdersByUserId - End: userId=${userId}`
+      );
+    }
+  }
 }
