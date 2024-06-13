@@ -1,0 +1,35 @@
+Resources:
+  OrdersTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ${self:provider.environment.DYNAMODB_ORDERS}
+      AttributeDefinitions:
+        - AttributeName: orderId
+          AttributeType: S
+        - AttributeName: userId
+          AttributeType: S
+        - AttributeName: location
+          AttributeType: S
+        - AttributeName: createdDate
+          AttributeType: S
+      KeySchema:
+        - AttributeName: orderId
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: userId-index
+          KeySchema:
+            - AttributeName: userId
+              KeyType: HASH
+            - AttributeName: createdDate
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+        - IndexName: location-index
+          KeySchema:
+            - AttributeName: location
+              KeyType: HASH
+            - AttributeName: createdDate
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+      BillingMode: PAY_PER_REQUEST

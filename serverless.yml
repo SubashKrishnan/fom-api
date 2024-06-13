@@ -1,0 +1,46 @@
+service: fom-api
+provider:
+  name: aws
+  runtime: nodejs16.x
+  memorySize: 512
+  timeout: 6
+  versionFunctions: false
+  stage: dev
+  region: ap-south-1
+  apiGateway:
+    binaryMediaTypes:
+      - '*/*'
+
+  environment:
+    REGION: ${self:custom.region}
+    DYNAMODB_ORDERS: ${self:custom.stage}-${self:service}-orders
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  region: ${opt:region, self:provider.region}
+
+package:
+  individually: true
+  patterns:
+    - '!tests/**'
+    - '!serverless-configs/**'
+    - '!envs/**'
+    - '!node_modules/.cache/**'
+    - '!test_payloads/**'
+
+functions:
+  createOrder:
+    handler: src/handlers/orders/CreateOrderHandler.handler
+    events:
+      - http:
+          path: orders
+          method: post
+    role: GlobalFunctionRole
+
+resources:
+  - ${file(./serverless-ext/iam.yml)}
+  - ${file(./serverless-ext/dynamodb.yml)}

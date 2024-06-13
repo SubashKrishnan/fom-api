@@ -1,0 +1,29 @@
+{
+	"compilerOptions": {
+		"rootDir": "./src", // The en
+		"lib": ["es2017"],
+		"removeComments": true,
+		"moduleResolution": "node",
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"sourceMap": true,
+		"target": "es6",
+		"module": "commonjs",
+		"outDir": "lib",
+		"experimentalDecorators": true,
+		"allowSyntheticDefaultImports": true,
+		"emitDecoratorMetadata": true,
+		"allowJs": true,
+		"checkJs": true,
+		"strict": true
+	},
+	"include": ["src/**/*.ts"],
+	"exclude": [
+		"node_modules/**/*",
+		".serverless/**/*",
+		".webpack/**/*",
+		"_warmup/**/*",
+		".vscode/**/*",
+		"test_payloads/**/"
+	]
+}

@@ -1,0 +1,30 @@
+Resources:
+  GlobalFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /
+      RoleName: ${self:custom.stage}-${self:custom.region}-${self:service}-sls-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+                - sns.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: ${self:custom.stage}-${self:custom.region}-${self:service}-sls-policy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - cloudwatch:*
+                  - ec2:*
+                  - lambda:*
+                  - sts:AssumeRole
+                  - dynamodb:*
+                  - iam:*
+                  - logs:*
+                Resource: '*'
